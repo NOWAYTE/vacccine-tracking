@@ -1,0 +1,7 @@
+Django>=4.2,<5.0
+djangorestframework>=3.14
+djangorestframework-simplejwt>=5.3
+mysqlclient>=2.2
+django-cors-headers>=4.4
+WeasyPrint>=61.0
+pytz
