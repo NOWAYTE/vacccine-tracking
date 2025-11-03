@@ -7,12 +7,16 @@ const api = axios.create({
   },
 });
 
-// Add JWT token automatically
+// Add JWT token automatically, but skip for token obtain/refresh endpoints
 api.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
+  const url = config.url || "";
+  const skipAuthHeader = url.includes("/api/token/");
+
+  if (!skipAuthHeader && typeof window !== "undefined") {
     const token = localStorage.getItem("access_token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers = config.headers || {};
+      (config.headers as any).Authorization = `Bearer ${token}`;
     }
   }
   return config;

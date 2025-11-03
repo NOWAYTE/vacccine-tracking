@@ -1,15 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { api, setAuthToken } from "@/lib/api";
-import { getToken } from "@/lib/auth";
+import api from "@/lib/api";
+import { getAccessToken } from "@/lib/auth";
 
 export default function Dashboard() {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    const token = getToken();
-    setAuthToken(token);
-    api.get("/patients/")
+    // Interceptor in api.ts will add the Authorization header automatically
+    const _ = getAccessToken();
+    api
+      .get("/api/patients/")
       .then((res) => setPatients(res.data))
       .catch(() => alert("Failed to load data"));
   }, []);
